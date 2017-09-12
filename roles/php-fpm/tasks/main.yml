@@ -1,0 +1,6 @@
+---
+
+- name: 'Install php-fpm'
+  package:
+    name: php-fpm
+    state: latest
