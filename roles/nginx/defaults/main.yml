@@ -1,0 +1,4 @@
+---
+
+ssl_certificate: /path/to/certificate.pem
+ssl_certificate_key: /path/to/key.pem

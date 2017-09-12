@@ -1,0 +1,41 @@
+---
+
+- name: 'Install nginx'
+  package:
+    name: nginx
+    state: latest
+
+- name: 'Create directories'
+  file:
+    path: '{{ item }}'
+    state: directory
+    mode: 0700
+  with_items:
+    - /etc/nginx
+    - /etc/nginx/conf.d
+    - /etc/nginx/vhost.d
+
+- name: 'Set configuration files'
+  copy:
+    src: '{{ item }}'
+    dest: '/etc/nginx/{{ item }}'
+    owner: root
+    group: root
+    mode: 0600
+  with_items:
+    - nginx.conf
+    - conf.d/non-ssl-redirect.conf
+  notify:
+    - restart nginx
+
+- name: 'Set configuration templates'
+  template:
+    src: '{{ item }}.j2'
+    dest: '/etc/nginx/{{ item }}'
+    owner: root
+    group: root
+    mode: 0600
+  with_items:
+    - ssl.conf
+  notify:
+    - restart nginx
