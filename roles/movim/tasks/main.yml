@@ -1,0 +1,57 @@
+---
+
+- name: 'Clear previous movim-git builds'
+  file:
+    state: absent
+    path: /tmp/packages/movim-git
+
+- name: 'Prepare packages directory'
+  file:
+    state: directory
+    recurse: yes
+    path: /tmp/packages
+    owner: makepkg
+
+- name: 'Download php-imagick package'
+  unarchive:
+    src: https://aur.archlinux.org/cgit/aur.git/snapshot/php-imagick.tar.gz
+    dest: /tmp/packages
+    remote_src: yes
+    owner: makepkg
+
+- name: 'Install php-imagick'
+  command: makepkg -sfi --noconfirm
+  args:
+    chdir: /tmp/packages/php-imagick
+  become: true
+  become_user: makepkg
+
+- name: 'Download movim-git package'
+  unarchive:
+    src: https://aur.archlinux.org/cgit/aur.git/snapshot/movim-git.tar.gz
+    dest: /tmp/packages
+    remote_src: yes
+    owner: makepkg
+
+- name: 'Build movim-git'
+  command: makepkg -sfi --noconfirm
+  args:
+    chdir: /tmp/packages/movim-git
+  become: true
+  become_user: makepkg
+
+- name: 'Install movim.nginx'
+  copy:
+    src: movim.nginx
+    dest: /etc/nginx/conf.d/movim.conf
+
+- name: 'Install movim.php-fpm.conf'
+  copy:
+    src: movim.php-fpm
+    dest: /etc/php/php-fpm.d/movim.conf
+
+- name: 'Enable and Start movim'
+  service:
+    name: movim
+    enabled: yes
+    daemon_reload: yes
