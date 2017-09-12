@@ -1,0 +1,5 @@
+---
+- hosts: jp.mov.im
+  gather_facts: yes
+  roles:
+  - { role: movim }
