@@ -1,7 +1,7 @@
-choora ansible_host=choora.bouah.net
+jp.mov.im
 
 [archlinux]
-choora
+jp.mov.im
 
 [archlinux:vars]
 ansible_python_interpreter=/usr/bin/python2
