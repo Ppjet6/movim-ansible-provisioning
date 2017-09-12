@@ -1,0 +1,70 @@
+---
+
+- name: "Create ssl group"
+  group:
+    name: ssl
+    state: present
+    system: yes
+
+- name: "Prepare LE folder"
+  file:
+    path: /etc/letsencrypt
+    state: directory
+    owner: root
+    group: ssl
+    mode: 0750
+
+- name: 'Generate account key'
+  command: openssl genrsa -out account.key 4096
+  args:
+    chdir: /etc/letsencrypt
+    creates: account.key
+
+- name: 'Generate private key'
+  command: openssl genrsa -out jp.mov.im.key 4096
+  args:
+    chdir: /etc/letsencrypt
+    creates: jp.mov.im.key
+
+- name: 'Generate Certificate Signing Request'
+  shell: openssl req -new -sha256 -key jp.mov.im.key -subj "/CN=jp.mov.im" > jp.mov.im.csr
+  args:
+    chdir: /etc/letsencrypt
+
+- name: 'Request Certificate'
+  letsencrypt:
+    account_key: /etc/letsencrypt/account.key
+    csr: /etc/letsencrypt/jp.mov.im.csr
+    dest: /etc/letsencrypt/jp.mov.im.crt
+  register: challenge
+
+- name: 'Prepare challenge folder'
+  file:
+    path: /srv/letsencrypt
+    state: directory
+
+- name: 'Prepare challenge data'
+  copy:
+    dest: /srv/letsencrypt/{{ challenge['challenge_data']['jp.mov.im']['http-01']['resource'] }}
+    content: "{{ challenge['challenge_data']['jp.mov.im']['http-01']['resource_value'] }}"
+  when: challenge|changed
+
+- name: 'Request Certificate'
+  letsencrypt:
+    account_key: /etc/letsencrypt/account.key
+    csr: /etc/letsencrypt/jp.mov.im.csr
+    dest: /etc/letsencrypt/jp.mov.im.crt
+    data: challenge
+  when: challenge|changed
+
+- name: 'Fix Permissions'
+  file:
+    path: '/etc/letsencrypt/{{ item }}'
+    owner: root
+    group: ssl
+    mode: 0640
+  with_items:
+    - account.key
+    - jp.mov.im.key
+    - jp.mov.im.csr
+    - jp.mov.im.crt
