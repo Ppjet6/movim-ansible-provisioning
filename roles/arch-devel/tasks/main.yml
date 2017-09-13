@@ -1,9 +1,10 @@
 ---
 
-- name: 'Install base-devel'
-  package:
-    name: base-devel
+- name: 'Install base & base-devel'
+  pacman:
+    name: base base-devel
     state: latest
+    update_cache: yes
 
 - name: 'Create makepkg user'
   user:
