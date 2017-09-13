@@ -4,3 +4,10 @@
   package:
     name: php-fpm
     state: latest
+
+- name: 'Enable and start php-fpm'
+  service:
+    name: php-fpm
+    state: started
+    enabled: yes
+    daemon_reload: yes
