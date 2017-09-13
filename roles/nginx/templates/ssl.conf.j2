@@ -1,7 +1,7 @@
 # https://mozilla.github.io/server-side-tls/ssl-config-generator/
 
-ssl_certificate {{ ssl_certificate }};
-ssl_certificate_key {{ ssl_certificate_key }};
+ssl_certificate "{{ ssl_path }}/{{ ssl_certificate }}";
+ssl_certificate_key "{{ ssl_path}}/{{ ssl_certificate_key }}";
 ssl_session_timeout 1d;
 ssl_session_cache shared:SSL:50m;
 ssl_session_tickets off;

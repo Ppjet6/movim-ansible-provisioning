@@ -1,4 +1,5 @@
 ---
 
-ssl_certificate: /path/to/certificate.pem
-ssl_certificate_key: /path/to/key.pem
+ssl_path: /etc/letsencrypt
+ssl_certificate: jp.mov.im.crt
+ssl_certificate_key: jp.mov.im.key
