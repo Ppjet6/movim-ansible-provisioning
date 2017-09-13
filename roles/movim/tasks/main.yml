@@ -46,6 +46,14 @@
     dest: /etc/nginx/conf.d/movim.conf
   notify: reload nginx
 
+- name: 'Create postgresql user'
+  postgresql_user: foo
+
+- name: 'Create postgresql database'
+  postgresql_user: foo
+
+- name: 'Install movim configuration'
+
 - name: 'Install movim.php-fpm.conf'
   copy:
     src: movim.php-fpm
