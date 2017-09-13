@@ -1,0 +1,13 @@
+---
+
+- name: 'Install postgresql'
+  package:
+    name: postgresql
+    state: latest
+
+- name: 'Enable and start postgresql'
+  service:
+    name: postgresql
+    state: started
+    enabled: yes
+    daemon_reload: yes

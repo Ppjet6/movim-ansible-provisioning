@@ -1,0 +1,14 @@
+galaxy_info:
+  author: Maxime “pep” Buquet
+  description: Postgresql
+  license: MIT
+  min_ansible_version: 1.2
+  platforms:
+  - name: Archlinux
+    versions:
+    - all
+  galaxy_tags:
+  - postgresql
+  - database
+
+dependencies: []
