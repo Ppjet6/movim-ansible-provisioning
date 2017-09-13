@@ -44,11 +44,13 @@
   copy:
     src: movim.nginx
     dest: /etc/nginx/conf.d/movim.conf
+  notify: reload nginx
 
 - name: 'Install movim.php-fpm.conf'
   copy:
     src: movim.php-fpm
     dest: /etc/php/php-fpm.d/movim.conf
+  notify: reload php-fpm
 
 - name: 'Enable and Start movim'
   service:
