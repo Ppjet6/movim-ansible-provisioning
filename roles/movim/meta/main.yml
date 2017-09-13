@@ -14,3 +14,4 @@ dependencies:
 - { role: arch-devel }
 - { role: nginx }
 - { role: php-fpm }
+- { role: postgresql }
