@@ -20,7 +20,7 @@
     owner: makepkg
 
 - name: 'Install php-imagick'
-  command: makepkg -sfi --noconfirm
+  command: makepkg --syncdeps --force --install --asdeps --noconfirm
   args:
     chdir: /tmp/packages/php-imagick
   become: true
@@ -34,7 +34,7 @@
     owner: makepkg
 
 - name: 'Build movim-git'
-  command: makepkg -sfi --noconfirm
+  command: makepkg --syncdeps --force --install --noconfirm
   args:
     chdir: /tmp/packages/movim-git
   become: true
