@@ -13,7 +13,7 @@
   command: initdb --encoding UTF8 --pgdata '{{ pg_data_dir }}'
   become: yes
   become_user: postgres
-  when: not stat_pg_data_dir.exists
+  when: not stat_pg_data_dir.stat.exists
 
 - name: 'Enable and start postgresql'
   service:
