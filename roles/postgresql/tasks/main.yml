@@ -5,6 +5,16 @@
     name: postgresql
     state: latest
 
+- stat:
+    path: '{{ pg_data_dir }}'
+  register: stat_pg_data_dir
+
+- name: 'Init postgresql'
+  command: initdb --encoding UTF8 --pgdata '{{ pg_data_dir }}'
+  become: yes
+  become_user: postgres
+  when: not stat_pg_data_dir.exists
+
 - name: 'Enable and start postgresql'
   service:
     name: postgresql
