@@ -2,9 +2,12 @@
 
 - name: 'Install base & base-devel'
   pacman:
-    name: base base-devel
+    name: '{{ item }}'
     state: latest
     update_cache: yes
+  with_items:
+  - base
+  - base-devel
 
 - name: 'Create makepkg user'
   user:
