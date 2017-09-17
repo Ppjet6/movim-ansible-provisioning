@@ -47,12 +47,24 @@
   notify: reload nginx
 
 - name: 'Create postgresql user'
-  postgresql_user: foo
+  postgresql_db:
+    name: '{{ vault_db_name }}'
+    state: present
+    encoding: UTF-8
 
 - name: 'Create postgresql database'
-  postgresql_user: foo
+  postgresql_user:
+    db: '{{ vault_db_name }}'
+    name: '{{ vault_db_user }}'
+    password: '{{ vault_db_passwd }}'
 
 - name: 'Install movim configuration'
+  template:
+    src: movim.conf.j2
+    dest: /etc/webapps/movim/db.inc.php
+    owner: root
+    group: http
+    mode: 0640
 
 - name: 'Install movim.php-fpm.conf'
   copy:
