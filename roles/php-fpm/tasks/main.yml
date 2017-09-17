@@ -5,6 +5,12 @@
     name: php-fpm
     state: latest
 
+- name: 'Remove default www pool'
+  file:
+    path: /etc/php/php-fpm.d/www.conf
+    state: absent
+  notify: reload php-fpm
+
 - name: 'Enable and start php-fpm'
   service:
     name: php-fpm
