@@ -46,17 +46,17 @@
     dest: /etc/nginx/conf.d/movim.conf
   notify: reload nginx
 
-- name: 'Create postgresql user'
+- name: 'Create postgresql database'
   postgresql_db:
-    name: '{{ vault_db_name }}'
+    name: '{{ db_name }}'
     state: present
     encoding: UTF-8
 
-- name: 'Create postgresql database'
+- name: 'Create postgresql user'
   postgresql_user:
-    db: '{{ vault_db_name }}'
-    name: '{{ vault_db_user }}'
-    password: '{{ vault_db_passwd }}'
+    db: '{{ db_name }}'
+    name: '{{ db_user }}'
+    password: '{{ db_passwd }}'
 
 - name: 'Install movim configuration'
   template:
@@ -65,6 +65,15 @@
     owner: root
     group: http
     mode: 0640
+
+- name: 'Install movim daemon configuration'
+  template:
+    src: movim.default.j2
+    dest: /etc/default/movim
+    owner: root
+    group: http
+    mode: 0640
+  notify: restart movim
 
 - name: 'Install movim.php-fpm.conf'
   copy:

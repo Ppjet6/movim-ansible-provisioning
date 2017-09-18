@@ -1,0 +1,4 @@
+---
+
+- name: restart movim
+  service: name=movim state=restarted
