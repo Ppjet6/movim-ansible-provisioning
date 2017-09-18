@@ -12,6 +12,11 @@
     path: /tmp/packages
     owner: makepkg
 
+- name: 'Install dependencies'
+  package:
+    name: php-pgsql
+    state: latest
+
 - name: 'Download php-imagick package'
   unarchive:
     src: https://aur.archlinux.org/cgit/aur.git/snapshot/php-imagick.tar.gz
