@@ -2,8 +2,11 @@
 
 - name: 'Install postgresql'
   package:
-    name: postgresql
+    name: '{{ item }}'
     state: latest
+  with_items:
+  - postgresql
+  - python2-psycopg2
 
 - find:
     path: '{{ pg_data_dir }}'
