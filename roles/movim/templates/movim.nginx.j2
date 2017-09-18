@@ -1,7 +1,7 @@
 server {
   listen        443 ssl http2 default_server;
   listen        [::]:443 ssl http2 default_server;
-  server_name   jp.mov.im;
+  server_name   {{ movim_domain }};
 
   include /etc/nginx/ssl.conf;
 

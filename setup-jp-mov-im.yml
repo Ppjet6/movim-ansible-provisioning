@@ -15,4 +15,4 @@
       61633633656338613164613134336534323661663861653137353261383161366234333439646466
       3366393933613133316561383238623563653164363932353835
   roles:
-  - { role: movim, db_passwd: '{{ vault_db_passwd }}' }
+  - { role: movim, db_passwd: '{{ vault_db_passwd }}', movim_domain: 'jp.mov.im' }
