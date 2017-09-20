@@ -1,0 +1,29 @@
+---
+
+- name: 'Install munin-node'
+  package:
+    name: munin-node
+    state: latest
+  register: package
+  notify: restart munin-node
+
+- name: 'Setup configuration'
+  template:
+    src: munin-node.conf.j2
+    dest: /etc/munin/munin-node.conf
+    owner: root
+    group: root
+    mode: 0640
+  notify: restart munin-node
+
+- name: 'Setup default munin plugins'
+  shell: munin-node-configure --shell | sh
+  when: package|changed
+  notify: restart munin-node
+
+- name: 'Start/Enable munin-node'
+  service:
+    name: munin-node
+    state: started
+    enabled: yes
+    daemon_reload: yes
